@@ -1,0 +1,32 @@
+---
+- name: Install and conf nginx on Debian
+  hosts: ubuntu
+  become: true
+
+  vars:
+    app_server_ip: 127.0.0.1
+    app_server_port: 8080
+    nginx_server_name: localhost
+  tasks:
+    - name: Install nginx on Ubuntu
+      ansible.builtin.apt:
+        name: nginx
+        state: present
+        update_cache: true
+      when: ansible_facts['os_family'] == "Debian"
+
+- name: Install and conf nginx on CentOS
+  hosts: centos
+  become: true
+
+  vars:
+    app_server_ip: 127.0.0.1
+    app_server_port: 8080
+    nginx_server_name: localhost
+  tasks:
+    - name: Install nginx on CentOS
+      ansible.builtin.dnf:
+        name: nginx
+        state: present
+        update_cache: true
+      when: ansible_facts['os_family'] == "RedHat"

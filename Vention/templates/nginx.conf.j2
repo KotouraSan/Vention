@@ -1,0 +1,13 @@
+events {}
+
+http {
+    server {
+        listen 80;
+
+        server_name {{ nginx_server_name }};
+
+        location / {
+            proxy_pass http://{{ app_server_ip }}:{{ app_server_port }};
+        }
+    }
+}
