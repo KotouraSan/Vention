@@ -1,0 +1,7 @@
+---
+- name: Manage users, ssh-hardening, ufw, sysctl, logrotate
+  hosts: ubuntu
+  become: true
+
+  roles:
+    - week5

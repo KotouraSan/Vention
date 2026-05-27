@@ -6,11 +6,11 @@ events {
 
 http {
     upstream myserver {
-        server {{ app_server_ip }}:{{ app_server_port }};
+        server {{ nginx_app_server_ip }}:{{ nginx_app_server_port }};
     }
 
     server {
-        listen {{ http_port }};
+        listen {{ nginx_http_port }};
         server_name {{ nginx_server_name }};
 
         access_log /var/log/nginx/access.log;
