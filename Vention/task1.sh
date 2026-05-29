@@ -1,6 +1,6 @@
 #!/bin/bash
 set -eu
-cd ~/Desktop/ventionDevOps
+cd /Users/ksan/Desktop/Vention
 echo -e "1. Find the top 20 IP addresses by number of requests\n"
 cat access.log | awk '{print $1}' | sort | uniq -c | sort -rnk1 | head -n 20
 echo -e "\n 2. Find all unique URLs that returned HTTP 500 errors\n"
