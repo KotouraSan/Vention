@@ -1,0 +1,7 @@
+---
+- name: Configure production nginx
+  hosts: production
+  become: true
+
+  roles:
+    - nginx-proxy

@@ -1,0 +1,7 @@
+---
+server_name: localhost
+
+ssl_enabled: false
+
+upstream_servers:
+  - 127.0.0.1:8080
