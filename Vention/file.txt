@@ -5,3 +5,5 @@ another text
 third text
 
 conflict?
+
+conflict solved
