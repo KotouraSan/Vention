@@ -1,0 +1,4 @@
+---
+- name: Check vault
+  ansible.builtin.debug:
+    msg: "{{ vault_password }}"

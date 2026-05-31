@@ -13,3 +13,6 @@
 
 - name: Import logrotate tasks
   ansible.builtin.import_tasks: logrotate.yml
+
+- name: Import vault tasks
+  ansible.builtin.import_tasks: vault.yml
