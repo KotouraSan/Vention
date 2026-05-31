@@ -16,3 +16,6 @@
 
 - name: Import vault tasks
   ansible.builtin.import_tasks: vault.yml
+
+- name: Import healthcheck tasks
+  ansible.builtin.import_tasks: healthcheck.yml
