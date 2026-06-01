@@ -1,0 +1,36 @@
+hello-anyops/
+    DEBIAN/
+        control      #metadata
+    opt/
+        hello-anyops.txt     #transfer data
+
+
+
+dpkg-deb --build hello-anyops    # build .deb package
+
+mkdir /opt/anyops-repo         # copy .deb to this dir
+
+dpkg-scanpackages . /dev/null > Packages       # scan all .deb packages and build final "Packages" file
+
+gzip -kf Packages       # shrink into .gz arcive
+
+
+#setup nginx
+server {
+    listen 80;
+
+    root /opt/anyops-repo;          # dir with all files, Packages, .deb etc.
+
+    location / {
+        autoindex on;
+    }
+}
+
+SECOND VM
+
+sudo nano /etc/apt/sources.list.d/anyops.list           # on second machine need to add deb address, 
+deb [trusted=yes] http://104.197.109.51 ./          # ip of first instance
+
+sudo apt update         # will download new Package.gz arcive, with our .deb in it
+
+sudo apt install hello-anyops       #install package
