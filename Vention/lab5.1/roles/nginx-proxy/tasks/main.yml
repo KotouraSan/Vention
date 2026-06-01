@@ -12,21 +12,21 @@
     state: present
   when: ansible_facts['os_family'] == "RedHat"
 
-- name: Deploy nginx config
+- name: Install nginx config
   ansible.builtin.template:
     src: nginx.conf.j2
     dest: /etc/nginx/nginx.conf
     mode: "0644"
   notify: Restart nginx
 
-- name: Deploy SSL certificate
+- name: Setup SSL certificate
   ansible.builtin.copy:
     src: nginx.crt
     dest: /etc/nginx/nginx.crt
     mode: "0644"
   when: ssl_enabled
 
-- name: Deploy SSL key
+- name: Set SSL key
   ansible.builtin.copy:
     src: nginx.key
     dest: /etc/nginx/nginx.key
