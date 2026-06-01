@@ -1,7 +1,0 @@
----
-- name: Install and conf nginx
-  hosts: ubuntu, centos
-  become: true
-
-  roles:
-    - nginx
