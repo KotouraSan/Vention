@@ -1,3 +1,11 @@
-ansible_user: ksan 
+ansible_user: ksan
 ansible_ssh_private_key_file: ~/.ssh/id_ed25519
 ansible_python_interpreter: /usr/bin/python3
+
+ufw_allowed_ports:
+  - port: 80
+    proto: tcp
+  - port: 22
+    proto: tcp
+  - port: 443
+    proto: tcp
