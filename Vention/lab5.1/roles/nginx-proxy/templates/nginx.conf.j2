@@ -25,7 +25,7 @@ http {
         server_name {{ server_name }};
 
         location / {
-            proxy_pass http://backend;
+            proxy_pass http://vention;
 
             proxy_set_header Host $host;
             proxy_set_header X-Real-IP $remote_addr;
