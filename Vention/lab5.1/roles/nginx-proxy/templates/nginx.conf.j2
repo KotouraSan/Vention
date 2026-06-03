@@ -6,7 +6,7 @@ events {
 
 http {
 
-    upstream backend {
+    upstream vention {
 {% for server in upstream_servers %}
         server {{ server }};
 {% endfor %}
