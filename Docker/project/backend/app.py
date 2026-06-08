@@ -3,11 +3,12 @@ import os
 from flask import Flask, jsonify
 import psycopg
 
+
 app = Flask(__name__)
 
 
-def create_table():
-    connection = psycopg.connect(
+def get_connection():
+    return psycopg.connect(
         host=os.environ["DB_HOST"],
         port=os.environ["DB_PORT"],
         dbname=os.environ["DB_NAME"],
@@ -15,7 +16,9 @@ def create_table():
         password=os.environ["DB_PASSWORD"],
     )
 
-    with connection:
+
+def create_table():
+    with get_connection() as connection:
         with connection.cursor() as cursor:
             cursor.execute(
                 """
@@ -30,7 +33,23 @@ def create_table():
 
 @app.route("/hello")
 def hello():
-    return jsonify({"message": "Hello AnyOps!"})
+    with get_connection() as connection:
+        with connection.cursor() as cursor:
+            cursor.execute("SELECT COUNT(*) FROM messages")
+            messages_count = cursor.fetchone()[0]
+
+    return jsonify(
+        {
+            "message": "Hello AnyOps!",
+            "database": "connected",
+            "messages_count": messages_count,
+        }
+    )
+
+
+@app.route("/health")
+def health():
+    return jsonify({"status": "ok"})
 
 
 if __name__ == "__main__":
