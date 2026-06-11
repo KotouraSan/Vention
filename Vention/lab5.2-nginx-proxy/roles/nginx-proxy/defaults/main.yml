@@ -3,5 +3,9 @@ server_name: localhost
 
 ssl_enabled: false
 
+certbot_enabled: false
+certbot_email: fnajimovv@gmail.com
+certbot_staging: true
+
 upstream_servers:
   - 127.0.0.1:8080

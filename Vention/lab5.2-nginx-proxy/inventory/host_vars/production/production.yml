@@ -1,8 +1,0 @@
----
-server_name: myapp.local
-
-ssl_enabled: true
-
-upstream_servers:
-  - "10.128.0.18:8080"
-  - "10.128.0.19:8080"

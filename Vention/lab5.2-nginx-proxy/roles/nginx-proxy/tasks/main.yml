@@ -12,6 +12,17 @@
     state: present
   when: ansible_facts['os_family'] == "RedHat"
 
+- name: Install certbot packages on Debian
+  ansible.builtin.apt:
+    name:
+      - certbot
+      - python3-certbot-nginx
+    state: present
+    update_cache: true
+  when:
+    - certbot_enabled
+    - ansible_facts['os_family'] == "Debian"
+
 - name: Install nginx config
   ansible.builtin.template:
     src: nginx.conf.j2
@@ -19,22 +30,23 @@
     mode: "0644"
   notify: Restart nginx
 
-- name: Setup SSL certificate
-  ansible.builtin.copy:
-    src: nginx.crt
-    dest: /etc/nginx/nginx.crt
-    mode: "0644"
-  when: ssl_enabled
-
-- name: Set SSL key
-  ansible.builtin.copy:
-    src: nginx.key
-    dest: /etc/nginx/nginx.key
-    mode: "0600"
-  when: ssl_enabled
 
 - name: Ensure nginx is running
   ansible.builtin.service:
     name: nginx
     state: started
     enabled: true
+
+- name: Generate Let's Encrypt certificate and enable HTTPS with certbot
+  ansible.builtin.command:
+    cmd: >
+      certbot --nginx
+      --non-interactive
+      --agree-tos
+      --email {{ certbot_email }}
+      -d {{ server_name }}
+      {% if certbot_staging %}--staging{% endif %}
+  args:
+    creates: /etc/letsencrypt/live/{{ server_name }}/fullchain.pem
+  when: certbot_enabled
+  notify: Restart nginx

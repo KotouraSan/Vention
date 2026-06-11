@@ -13,7 +13,7 @@ http {
     }
 
     server {
-{% if ssl_enabled %}
+{% if ssl_enabled and not certbot_enabled %}
         listen 443 ssl;
 
         ssl_certificate /etc/nginx/nginx.crt;

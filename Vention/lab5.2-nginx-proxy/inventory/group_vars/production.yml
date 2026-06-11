@@ -1,0 +1,12 @@
+---
+server_name: vention-fnajimov.servebeer.com
+
+ssl_enabled: false
+
+certbot_enabled: true
+certbot_email: fnajimovv@gmail.com
+certbot_staging: true
+
+upstream_servers:
+  - "10.128.0.18:8080"
+  - "10.128.0.19:8080"
