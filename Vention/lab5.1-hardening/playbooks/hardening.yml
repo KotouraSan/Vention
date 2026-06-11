@@ -4,6 +4,6 @@
   become: true
 
   vars_files:
-    - ../inventory/group_vars/servers_vault.yml
+    - ../../inventory/group_vars/servers_vault.yml
   roles:
     - week5

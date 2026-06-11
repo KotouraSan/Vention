@@ -1,0 +1,27 @@
+---
+- name: Install nginx on Ubuntu # https://docs.ansible.com/projects/ansible/latest/collections/ansible/builtin/apt_module.html
+  ansible.builtin.apt:
+    name: nginx
+    state: present
+    update_cache: true
+  when: ansible_facts['os_family'] == "Debian"
+
+- name: Install nginx on CentOS
+  ansible.builtin.dnf:
+    name: nginx
+    state: present
+    update_cache: true
+  when: ansible_facts['os_family'] == "RedHat"
+
+- name: Running nginx # https://docs.ansible.com/projects/ansible/latest/collections/ansible/builtin/service_module.html
+  ansible.builtin.service:
+    name: nginx
+    state: started
+    enabled: true
+
+- name: Jinjs template run # https://docs.ansible.com/projects/ansible/latest/collections/ansible/builtin/template_module.html
+  ansible.builtin.template:
+    src: nginx.conf.j2
+    dest: /etc/nginx/nginx.conf
+    mode: "0644"
+  notify: Restart nginx
