@@ -1,12 +1,18 @@
 ---
-- name: Set and manage logrotate
-  ansible.builtin.copy:
-    dest: /etc/logrotate.d/app_logs
-    content: |
-      /opt/app/logs/*.log {
-          weekly
-          rotate 4
-          compress
-          delaycompress
-      }
-    mode: "0644"
+- name: Ensure logrotate config directory exists
+  ansible.builtin.file:
+    path: /etc/logrotate.d
+    state: directory
+    mode: "0755"
+
+- name: Configure app logrotate
+  community.general.logrotate:
+    name: app_logs
+    paths:
+      - /opt/app/logs/*.log
+    rotation_period: weekly
+    rotate_count: 4
+    compress: true
+    delay_compress: true
+    missing_ok: true
+    not_if_empty: true

@@ -1,0 +1,7 @@
+[Unit]
+Description=HealthCheck Service shows du df free
+
+[Service]
+Type=oneshot
+ExecStart=/opt/healthcheck/check.sh
+User=root
