@@ -1,95 +1,82 @@
 services:
   frontend:
-    build: ./frontend
-    env_file: .env
+    image: ks4n/lab-6-1-frontend:latest
+    ports:
+      - "80:80"
+    networks:
+      - app-network
     deploy:
       mode: replicated
       replicas: 2
-      restart_policy:
+      restart_polict:
         condition: on-failure
-    depends_on:
-      backend:
-        condition: service_healthy
-    networks:
-      - app-network
-    ports:
-      - "80:80"
-
-
 
 
   backend:
-    build: ./backend
-    env_file: .env
-    depends_on:
-      db:
-        condition: service_healthy
+    image: ks4n/lab-6-1-backend:latest
+    environment:
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+    secrets:
+      - db_password
     healthcheck:
       test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:5000/health', timeout=2)"]
       interval: 30s
       timeout: 10s
       retries: 3
       start_period: 60s
-
     deploy:
       mode: replicated
       replicas: 3
-
       resources:
         limits:
-          memory: ${MEM_LIMIT:-512N}
-          cpus: "1.0"
+          memory: ${MEM_LIMIT:-128M}
+          cpus: "0.5"
         reservations:
-          memory: ${MEM_RESERVATION:-128M}
+          memory: ${MEM_RESERVATION:-64M}
           cpus: "0.1"
-
       restart_policy:
         condition: on-failure
         delay: 10s
         max_attempts: 5
         window: 120s
-
       update_config:
         parallelism: 1
         delay: 30s
         monitor: 60s
         order: start-first
-
     networks:
       - app-network
 
 
-
-
-
-
   db:
     image: postgres:16
-    env_file: .env
+    environment:
+      POSTGRES_DB: app
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD_FILE: /run/secrets/db_password
+    secrets:
+      - db_password
     volumes:
       - postgres-data:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
-      interval: 30s
-      timeout: 5s
-      retries: 3
-      start_period: 10s
+    networks:
+      - app-network
     deploy:
       mode: replicated
       replicas: 1
       restart_policy:
         condition: on-failure
-    networks:
-      - app-network
 
-
-
-
-
-
-
-volumes: 
+volumes:
   postgres-data:
 
 networks:
   app-network:
+    driver: overlay
+
+secrets:
+  db_password:
+    external: true
