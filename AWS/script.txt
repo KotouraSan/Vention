@@ -1,0 +1,39 @@
+#!/bin/bash
+dnf update -y
+dnf install -y nginx
+
+mkdir -p /usr/share/nginx/html
+echo "<h1>Hello from $(hostname)</h1>" > /usr/share/nginx/html/index.html
+
+cat > /etc/nginx/nginx.conf << 'EOF'
+user nginx;
+worker_processes auto;
+error_log /var/log/nginx/error.log notice;
+pid /run/nginx.pid;
+
+events {
+    worker_connections 1024;
+}
+
+http {
+    include /etc/nginx/mime.types;
+    default_type application/octet-stream;
+
+    server {
+        listen 8080 default_server;
+        listen [::]:8080 default_server;
+        server_name _;
+
+        root /usr/share/nginx/html;
+        index index.html;
+
+        location / {
+            try_files $uri $uri/ =404;
+        }
+    }
+}
+EOF
+
+nginx -t
+systemctl enable nginx
+systemctl restart nginx
