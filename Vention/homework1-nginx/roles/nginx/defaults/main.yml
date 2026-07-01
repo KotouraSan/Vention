@@ -1,5 +1,0 @@
----
-nginx_app_server_ip: 127.0.0.1
-nginx_app_server_port: 8080
-nginx_http_port: 80
-nginx_server_name: localhost

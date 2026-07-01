@@ -1,9 +1,0 @@
----
-- name: Manage users, ssh-hardening, ufw, sysctl, logrotate
-  hosts: ubuntu
-  become: true
-
-  vars_files:
-    - ../../inventory/group_vars/servers_vault.yml
-  roles:
-    - week5

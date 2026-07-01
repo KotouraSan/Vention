@@ -1,7 +1,0 @@
----
-- name: Configure staging nginx
-  hosts: staging
-  become: true
-
-  roles:
-    - nginx-proxy
