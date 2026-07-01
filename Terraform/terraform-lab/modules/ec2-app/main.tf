@@ -17,13 +17,13 @@ data "aws_ami" "instance" {
 }
 
 resource "aws_instance" "app" {
-  for_each = toset(var.private_subnet_ids)
-  iam_instance_profile = var.instance_profile_name
-  ami = data.aws_ami.instance.id
-  instance_type = "t3.micro"
-  subnet_id = each.value
+  for_each = {for idx, subnet_id in var.private_subnet_ids : "app-${idx + 1}" => subnet_id}
+  ami                    = data.aws_ami.instance.id
+  instance_type          = "t3.micro"
+  subnet_id              = each.value
   vpc_security_group_ids = [var.app_sg_id]
-  user_data = local.user_data
+  iam_instance_profile   = var.instance_profile_name
+  user_data              = local.user_data
 }
 
 resource "aws_lb_target_group_attachment" "app" {
