@@ -8,9 +8,9 @@ module "network" {
   public_subnet_cidrs   = var.public_subnet_cidrs
   private_subnet_cidrs  = var.private_subnet_cidrs
   database_subnet_cidrs = var.database_subnet_cidrs
-  
-  create_nat_gateway = false
-  
+
+  create_nat_gateway = true
+
 }
 
 module "security_group" {
@@ -68,8 +68,4 @@ module "s3" {
   source = "../../modules/s3"
 
   bucket_name = "${var.project_name}-${var.environment}-vention-${random_id.bucket_suffix.hex}"
-}
-
-resource "aws_s3_bucket" "manual_import" {
-  bucket = var.manual_bucket_name
 }
