@@ -21,7 +21,7 @@ variable "target_group_arn" {
 }
 
 variable "app_port" {
-  type = number
+  type    = number
   default = 8080
 }
 

@@ -45,7 +45,7 @@ variable "app_port" {
 }
 
 variable "bucket_name" {
-  type = string
+  type    = string
   default = "vention-lab9-terraform-vention"
 }
 

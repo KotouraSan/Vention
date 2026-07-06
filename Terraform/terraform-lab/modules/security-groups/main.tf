@@ -1,5 +1,5 @@
 resource "aws_security_group" "alb" {
-  name = "ALB-SG"
+  name   = "ALB-SG"
   vpc_id = var.vpc_id
 
   tags = {
@@ -12,10 +12,10 @@ resource "aws_security_group" "alb" {
 
 resource "aws_vpc_security_group_ingress_rule" "alb_80" {
   security_group_id = aws_security_group.alb.id
-  cidr_ipv4 = "0.0.0.0/0"
-  from_port = 80
-  ip_protocol = "tcp"
-  to_port = 80
+  cidr_ipv4         = "0.0.0.0/0"
+  from_port         = 80
+  ip_protocol       = "tcp"
+  to_port           = 80
 
   tags = {
     Name        = "${var.project_name}-${var.environment}-sg-alb"
@@ -27,8 +27,8 @@ resource "aws_vpc_security_group_ingress_rule" "alb_80" {
 
 resource "aws_vpc_security_group_egress_rule" "alb" {
   security_group_id = aws_security_group.alb.id
-  cidr_ipv4 = "0.0.0.0/0"
-  ip_protocol = -1
+  cidr_ipv4         = "0.0.0.0/0"
+  ip_protocol       = -1
 
   tags = {
     Name        = "${var.project_name}-${var.environment}-sg-alb"
@@ -40,10 +40,10 @@ resource "aws_vpc_security_group_egress_rule" "alb" {
 
 resource "aws_vpc_security_group_ingress_rule" "alb_443" {
   security_group_id = aws_security_group.alb.id
-  cidr_ipv4 = "0.0.0.0/0"
-  from_port = 443
-  ip_protocol = "tcp"
-  to_port = 443
+  cidr_ipv4         = "0.0.0.0/0"
+  from_port         = 443
+  ip_protocol       = "tcp"
+  to_port           = 443
 
   tags = {
     Name        = "${var.project_name}-${var.environment}-sg-alb"
@@ -54,7 +54,7 @@ resource "aws_vpc_security_group_ingress_rule" "alb_443" {
 }
 
 resource "aws_security_group" "app" {
-  name = "APP-SG"
+  name   = "APP-SG"
   vpc_id = var.vpc_id
   tags = {
     Name        = "${var.project_name}-${var.environment}-sg-app"
@@ -65,10 +65,10 @@ resource "aws_security_group" "app" {
 }
 
 resource "aws_vpc_security_group_ingress_rule" "app_8080" {
-  security_group_id = aws_security_group.app.id
-  from_port = var.app_port
-  to_port = var.app_port
-  ip_protocol = "tcp"
+  security_group_id            = aws_security_group.app.id
+  from_port                    = var.app_port
+  to_port                      = var.app_port
+  ip_protocol                  = "tcp"
   referenced_security_group_id = aws_security_group.alb.id
   tags = {
     Name        = "${var.project_name}-${var.environment}-sg-app"
@@ -80,8 +80,8 @@ resource "aws_vpc_security_group_ingress_rule" "app_8080" {
 
 resource "aws_vpc_security_group_egress_rule" "app_sg" {
   security_group_id = aws_security_group.app.id
-  cidr_ipv4 = "0.0.0.0/0"
-  ip_protocol = -1
+  cidr_ipv4         = "0.0.0.0/0"
+  ip_protocol       = -1
 
   tags = {
     Name        = "${var.project_name}-${var.environment}-sg-app"
@@ -92,7 +92,7 @@ resource "aws_vpc_security_group_egress_rule" "app_sg" {
 }
 
 resource "aws_security_group" "db" {
-  name = "DB-SG"
+  name   = "DB-SG"
   vpc_id = var.vpc_id
 
   tags = {
@@ -104,10 +104,10 @@ resource "aws_security_group" "db" {
 }
 
 resource "aws_vpc_security_group_ingress_rule" "db" {
-  security_group_id = aws_security_group.db.id
-  from_port = var.db_port
-  to_port = var.db_port
-  ip_protocol = "tcp"
+  security_group_id            = aws_security_group.db.id
+  from_port                    = var.db_port
+  to_port                      = var.db_port
+  ip_protocol                  = "tcp"
   referenced_security_group_id = aws_security_group.app.id
   tags = {
     Name        = "${var.project_name}-${var.environment}-sg-db"
@@ -119,8 +119,8 @@ resource "aws_vpc_security_group_ingress_rule" "db" {
 
 resource "aws_vpc_security_group_egress_rule" "db_sg" {
   security_group_id = aws_security_group.db.id
-  cidr_ipv4 = "0.0.0.0/0"
-  ip_protocol = -1
+  cidr_ipv4         = "0.0.0.0/0"
+  ip_protocol       = -1
 
   tags = {
     Name        = "${var.project_name}-${var.environment}-sg-db"
