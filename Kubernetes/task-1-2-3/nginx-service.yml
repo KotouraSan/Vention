@@ -1,0 +1,19 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-service
+  namespace: lab10-app
+  labels:
+    app.kubernetes.io/name: nginx
+    app.kubernetes.io/version: "1.27"
+spec:
+  type: ClusterIP
+  selector:
+    app.kubernetes.io/name: nginx
+    app.kubernetes.io/version: "1.27"
+  ports:
+  - port: 80
+    protocol: "TCP"
+    targetPort: 80
+    name: "http"
