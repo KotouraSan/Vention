@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: week6-config
+  namespace: lab-app
+data:
+  POSTGRES_DB: "app"
+  POSTGRES_USER: "postgres"
+  DB_HOST: "db"
+  DB_PORT: "5432"
+  DB_NAME: "app"
+  DB_USER: "postgres"

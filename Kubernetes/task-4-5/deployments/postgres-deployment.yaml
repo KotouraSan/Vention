@@ -17,8 +17,10 @@ spec:
         - name: postgres
           image: postgres:16-alpine
           envFrom:
+            - configMapRef:
+                name: week6-config
             - secretRef:
-                name: week6-env
+                name: week6-secret
           ports:
             - name: postgres
               containerPort: 5432
@@ -36,4 +38,4 @@ spec:
                 - -c
                 - pg_isready -U "$POSTGRES_USER" -d "$POSTGRES_DB"
             initialDelaySeconds: 5
-            periodSeconds: 5
+            periodSeconds: 10

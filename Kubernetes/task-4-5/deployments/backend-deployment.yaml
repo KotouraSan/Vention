@@ -18,9 +18,6 @@ spec:
         - name: backend
           image: week6-backend:v1
           imagePullPolicy: Never
-          envFrom:
-            - secretRef:
-                name: week6-env
           ports:
             - name: http
               containerPort: 5000
@@ -43,3 +40,8 @@ spec:
             requests:
               memory: "128Mi"
               cpu: "1.0"
+          envFrom:
+            - configMapRef:
+                name: week6-config
+            - secretRef:
+                name: week6-secret
