@@ -1,0 +1,23 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: health-check-5-min
+  namespace: lab-app
+spec:
+  schedule: "*/5 * * * *"
+  concurrencyPolicy: Forbid
+  failedJobsHistoryLimit: 3
+
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: Never
+          containers:
+          - name: health-check-5-min
+            image: "curlimages/curl:8.12.1"
+            args:
+              - "-fsS"     #-f HTTP 4**, 5** считать ошибкой. -s без progress bar. -S показать сообщение при ошибке
+              - "--max-time"
+              - "10"
+              - "http://backend-svc:5000/health"        # без /api/

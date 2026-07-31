@@ -1,0 +1,12 @@
+NAMESPACE     NAME                                       READY   STATUS    RESTARTS   AGE     IP                NODE            NOMINATED NODE   READINESS GATES
+kube-system   calico-kube-controllers-58f68d56d9-sf7ds   1/1     Running   0          38m     192.168.235.130   control-plane   <none>           <none>
+kube-system   calico-node-2jwvm                          1/1     Running   0          38m     10.0.2.184        control-plane   <none>           <none>
+kube-system   calico-node-sbvjc                          1/1     Running   0          8m21s   10.0.2.247        worker-1        <none>           <none>
+kube-system   coredns-589f44dc88-bkq4d                   1/1     Running   0          43h     192.168.235.129   control-plane   <none>           <none>
+kube-system   coredns-589f44dc88-cw8hg                   1/1     Running   0          43h     192.168.235.131   control-plane   <none>           <none>
+kube-system   etcd-control-plane                         1/1     Running   0          43h     10.0.2.184        control-plane   <none>           <none>
+kube-system   kube-apiserver-control-plane               1/1     Running   0          43h     10.0.2.184        control-plane   <none>           <none>
+kube-system   kube-controller-manager-control-plane      1/1     Running   0          43h     10.0.2.184        control-plane   <none>           <none>
+kube-system   kube-proxy-9gkr7                           1/1     Running   0          8m21s   10.0.2.247        worker-1        <none>           <none>
+kube-system   kube-proxy-bvtgn                           1/1     Running   0          43h     10.0.2.184        control-plane   <none>           <none>
+kube-system   kube-scheduler-control-plane               1/1     Running   0          43h     10.0.2.184        control-plane   <none>           <none>
