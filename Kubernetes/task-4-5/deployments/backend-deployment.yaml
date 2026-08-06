@@ -36,10 +36,10 @@ spec:
           resources:
             limits:
               memory: "256Mi"
-              cpu: "1.5"
+              cpu: "500m"
             requests:
               memory: "128Mi"
-              cpu: "1.0"
+              cpu: "50m"
           envFrom:
             - configMapRef:
                 name: week6-config

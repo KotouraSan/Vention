@@ -1,11 +1,21 @@
 {{- if .Values.rbac.enabled }}
-apiVersion: v1
-kind: ServiceAccount
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
 metadata:
-  name: {{ .Values.rbac.serviceAccountName }}
+  name: {{ include "k8s-final.fullname" . }}-reader-role
   namespace: {{ .Release.Namespace }}
   labels:
     app.kubernetes.io/name: {{ include "k8s-final.name" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/component: rbac
+
+rules:
+  - apiGroups:
+      - ""
+    resources:
+      - pods
+      - services
+    verbs:
+      - get
+      - list
 {{- end }}

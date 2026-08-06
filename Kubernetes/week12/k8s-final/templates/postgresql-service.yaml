@@ -1,0 +1,23 @@
+{{- if .Values.postgresql.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "k8s-final.fullname" . }}-postgresql
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app.kubernetes.io/name: {{ include "k8s-final.name" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/component: postgresql
+
+spec:
+  type: {{ .Values.postgresql.service.type }}
+  selector:
+    app.kubernetes.io/name: {{ include "k8s-final.name" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/component: postgresql
+  ports:
+    - name: postgres
+      port: {{ .Values.postgresql.service.port }}
+      protocol: TCP
+      targetPort: postgres
+{{- end }}

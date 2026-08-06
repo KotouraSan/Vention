@@ -1,0 +1,42 @@
+{{- if .Values.cronjob.enabled }}
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ include "k8s-final.fullname" . }}-health-check
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app.kubernetes.io/name: {{ include "k8s-final.name" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/component: health-check
+
+spec:
+  schedule: "{{ .Values.cronjob.schedule }}"
+  concurrencyPolicy: {{ .Values.cronjob.concurrencyPolicy }}
+  failedJobsHistoryLimit: {{ .Values.cronjob.failedJobsHistoryLimit }}
+
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            app.kubernetes.io/name: {{ include "k8s-final.name" . }}
+            app.kubernetes.io/instance: {{ .Release.Name }}
+            app.kubernetes.io/component: health-check
+
+        spec:
+{{- if .Values.rbac.enabled }}
+          serviceAccountName: {{ .Values.rbac.serviceAccountName }}
+{{- end }}
+          restartPolicy: Never
+
+          containers:
+            - name: health-check
+              image: "{{ .Values.cronjob.image.repository }}:{{ .Values.cronjob.image.tag }}"
+              imagePullPolicy: {{ .Values.cronjob.image.pullPolicy }}
+
+              args:
+                - "-fsS"
+                - "--max-time"
+                - "10"
+                - "http://{{ include "k8s-final.fullname" . }}-backend:{{ .Values.backend.service.port }}/health"
+{{- end }}

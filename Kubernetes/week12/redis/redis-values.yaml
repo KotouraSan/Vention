@@ -1,0 +1,21 @@
+architecture: standalone
+
+auth:
+  enabled: true
+  password: pas113301
+
+master:
+  persistence:
+    enabled: true
+    size: 1Gi
+
+  service:
+    type: ClusterIP
+
+  resources:
+    requests:
+      cpu: 50m
+      memory: 64Mi
+    limits:
+      cpu: 200m
+      memory: 256Mi
